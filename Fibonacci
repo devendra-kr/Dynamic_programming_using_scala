@@ -18,13 +18,11 @@ def fib(n: Long): Long = {
           case (None, Some(y)) => { 
               val a = fibonacci(n-1)
               if(!valueHolder.exists(_._1 == (n-1))) valueHolder += ((n-1) -> a)
-              // println("size of map " + valueHolder)
               a + y
           }
           case (Some(x), None) => { 
               val b = fibonacci(n-2)
               if(!valueHolder.exists(_._1 == (n-2))) valueHolder += ((n-2) -> b)
-              // println("size of map " + valueHolder)
               x + b
           }
           case (None, None) => {
@@ -32,13 +30,15 @@ def fib(n: Long): Long = {
               if(!valueHolder.exists(_._1 == (n-1))) valueHolder += ((n-1) -> a)
               val b = fibonacci(n-2)
               if(!valueHolder.exists(_._1 == (n-2))) valueHolder += ((n-2) -> b)
-              // println("size of map " + valueHolder)
               a + b
           }
       }
   }
-  fibonacci(n)
+  val res = fibonacci(n)
+  println("space size " + valueHolder.size)
+  res
+  
 }
 
 
-println(fib(100))
+println(fib(150))
