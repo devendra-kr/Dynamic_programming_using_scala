@@ -1,0 +1,44 @@
+/* Non Dynamic Way, T.C. = O(2^n) */
+def fibonacci(n: Long): Long = n match {
+    case 0 => 0
+    case 1 => 1
+    case _ => fibonacci(n-1) + fibonacci(n-2)
+}
+
+
+/* Dynamic Way, T.C. = O(n) and Space = O(n) */
+
+def fib(n: Long): Long = {
+  var valueHolder = Map[Long, Long]()
+  def fibonacci(n: Long): Long = n match {
+      case 0 => 0
+      case 1 => 1
+      case _ => (valueHolder.get(n-1), valueHolder.get(n-2)) match {
+          case (Some(x), Some(y)) => x + y
+          case (None, Some(y)) => { 
+              val a = fibonacci(n-1)
+              if(!valueHolder.exists(_._1 == (n-1))) valueHolder += ((n-1) -> a)
+              // println("size of map " + valueHolder)
+              a + y
+          }
+          case (Some(x), None) => { 
+              val b = fibonacci(n-2)
+              if(!valueHolder.exists(_._1 == (n-2))) valueHolder += ((n-2) -> b)
+              // println("size of map " + valueHolder)
+              x + b
+          }
+          case (None, None) => {
+              val a = fibonacci(n-1)
+              if(!valueHolder.exists(_._1 == (n-1))) valueHolder += ((n-1) -> a)
+              val b = fibonacci(n-2)
+              if(!valueHolder.exists(_._1 == (n-2))) valueHolder += ((n-2) -> b)
+              // println("size of map " + valueHolder)
+              a + b
+          }
+      }
+  }
+  fibonacci(n)
+}
+
+
+println(fib(100))
